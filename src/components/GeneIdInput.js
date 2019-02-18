@@ -20,8 +20,13 @@ class GeneIdInput extends Component {
       if( this.isNum(num)) {
         idsToStore.push(num);
       }
-    }
+    });
     this.setState({ ids: idsToStore });
+    this.props.storeIds(idsToStore);
+  }
+
+  isNum = (num) => {
+    return !Number.isNaN(num);
   }
 
   handleChange = (e) => {
