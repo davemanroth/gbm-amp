@@ -1,3 +1,7 @@
+/**
+ * Component that creates UI and accepts user input for gene ids, does
+ * basic processing, passes ids to parent App component for output
+ */
 import React, { Component } from 'react';
 
 class GeneIdInput extends Component {
@@ -5,12 +9,14 @@ class GeneIdInput extends Component {
     super(props);
     this.processIds = this.processIds.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.isNum = this.isNum.bind(this);
     this.state = { 
       input: "",
-      ids: [] 
     }
   }
 
+// Collect input from textarea element, make sure numbers entered, push to
+// array and store in prop method storeIds
   processIds = () => {
     const idsToStore = [];
     let ids = this.state.input;
@@ -21,14 +27,15 @@ class GeneIdInput extends Component {
         idsToStore.push(num);
       }
     });
-    this.setState({ ids: idsToStore });
     this.props.storeIds(idsToStore);
   }
 
+// Simple utility function to check if user input is a number
   isNum = (num) => {
     return !Number.isNaN(num);
   }
 
+// Save raw user input from textarea in state
   handleChange = (e) => {
     this.setState({ input: e.target.value });
   }
