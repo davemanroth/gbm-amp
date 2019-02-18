@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GeneIdInput from './components/GeneIdInput';
+import BarChart from './components/BarChart';
 import axios from 'axios';
 import './App.css';
 
@@ -24,7 +25,6 @@ class App extends Component {
     ids.map( (id) => {
       this.queryApi(id);
     });
-    //this.processResults(results);
   }
 
   queryApi = (id) => {
@@ -75,6 +75,17 @@ class App extends Component {
             <GeneIdInput 
               storeIds={ this.translateIds }
             />
+            { this.state.amplifications.length > 0 ? 
+              this.state.amplifications.map( (amp, idx) => {
+                return (
+                  <BarChart
+                    id={ amp.id }
+                    width={ amp.percentage }
+                    key={ idx }
+                  />
+                );
+              }) : ""
+            }
           </div>
         </div>
       </div>
