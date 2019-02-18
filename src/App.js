@@ -6,6 +6,7 @@ import './App.css';
 const NUM_PATIENTS = 577;
 const URL_START = 'http://www.cbioportal.org/api/molecular-profiles/gbm_tcga_gistic/molecular-data?sampleListId=gbm_tcga_cna&entrezGeneId=';
 const URL_END = '&projection=SUMMARY';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -13,13 +14,16 @@ class App extends Component {
     this.queryApi = this.queryApi.bind(this);
     this.processResults = this.processResults.bind(this);
     this.storeResults = this.storeResults.bind(this);
+    this.calculatePercentage = this.calculatePercentage.bind(this);
     this.state = {
       amplifications: []
     };
   }
 
   translateIds = (ids) => {
-    this.queryApi(ids);
+    ids.map( (id) => {
+      this.queryApi(id);
+    });
     //this.processResults(results);
   }
 
@@ -33,7 +37,7 @@ class App extends Component {
       }
     })
     .then( (resp) => {
-      this.processResults(id[0], resp.data);
+      this.processResults(id, resp.data);
     })
     .catch( (error) => {
       console.log("ERROR: " + error);
@@ -48,7 +52,6 @@ class App extends Component {
       }
     });
     const percentage = this.calculatePercentage(valuesTally);
-    //console.log("id: " + id + ", percentage: " + percentage);
     this.storeResults(id, percentage);
   }
 
